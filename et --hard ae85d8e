@@ -1,0 +1,17 @@
+[33m0ad276f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: reset: moving to HEAD
+[33m0ad276f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{1}: commit: Update
+[33mae85d8e[m HEAD@{2}: reset: moving to ae85d8ebc7b9d7e202592e0c1d366f8202fa849f
+[33mae85d8e[m HEAD@{3}: reset: moving to ae85d8ebc7b9d7e202592e0c1d366f8202fa849f
+[33m78b595c[m HEAD@{4}: reset: moving to 78b595c
+[33mebecc26[m HEAD@{5}: reset: moving to ebecc26
+[33mae85d8e[m HEAD@{6}: reset: moving to ae85d8e
+[33m9490d01[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{7}: checkout: moving from feature/softDelete to main
+[33m6f53693[m[33m ([m[1;31morigin/feature/softDelete[m[33m, [m[1;32mfeature/softDelete[m[33m)[m HEAD@{8}: commit: perf: Add soft delete
+[33m9490d01[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{9}: checkout: moving from main to feature/softDelete
+[33m9490d01[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{10}: commit: Update
+[33mae85d8e[m HEAD@{11}: commit: Update
+[33mebecc26[m HEAD@{12}: commit: Update
+[33m78b595c[m HEAD@{13}: commit: Update
+[33maaed8a9[m HEAD@{14}: commit: Update
+[33m7a4cfe9[m HEAD@{15}: Branch: renamed refs/heads/master to refs/heads/main
+[33m7a4cfe9[m HEAD@{17}: commit (initial): Initial commit - Clean Architecture Base Project
