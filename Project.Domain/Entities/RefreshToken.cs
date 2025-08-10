@@ -3,7 +3,7 @@
     public class RefreshToken : BaseEntity
     {
         public Guid UserId { get; set; }
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
         public string Token { get; private set; }
         public DateTime ExpiresAt { get; private set; }
         public DateTime? Revoked { get; private set; }
