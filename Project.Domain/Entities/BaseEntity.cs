@@ -13,14 +13,14 @@ namespace Project.Domain.Entities
         public virtual Guid? CreateBy { get; set; }
 
         [ForeignKey("CreateBy")]
-        public virtual User CreatedByUser { get; set; }
+        public virtual User? CreatedByUser { get; set; }
 
         public virtual DateTime? UpdateAt { get; set; }
 
         public virtual Guid? UpdateBy { get; set; }
 
         [ForeignKey("UpdateBy")]
-        public virtual User UpdatedByUser { get; set; }
+        public virtual User? UpdatedByUser { get; set; }
 
         public virtual void SetCreated(Guid? updatedBy)
         {
