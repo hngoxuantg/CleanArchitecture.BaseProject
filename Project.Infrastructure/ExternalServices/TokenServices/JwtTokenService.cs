@@ -36,7 +36,7 @@ namespace Project.Infrastructure.ExternalServices.TokenServices
                 new Claim(ClaimTypes.Name, user.FullName),
             };
 
-            for(int i = 0; i < roles.Count; i++) 
+            for (int i = 0; i < roles.Count; i++)
                 claims.Add(new Claim(ClaimTypes.Role, roles[i]));
 
             SecurityTokenDescriptor securityTokenDescriptor = new SecurityTokenDescriptor()
@@ -52,6 +52,7 @@ namespace Project.Infrastructure.ExternalServices.TokenServices
         public string GenerateRefreshToken()
         {
             byte[] randomBytes = new byte[64];
+
             using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(randomBytes);
