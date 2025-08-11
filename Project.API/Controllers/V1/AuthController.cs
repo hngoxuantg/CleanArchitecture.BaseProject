@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Project.Application.DTOs;
 using Project.Application.Interfaces.IServices;
 using Project.Common.Models.Responses;
+using Project.Common.Options;
 
 namespace Project.API.Controllers.V1
 {
@@ -14,9 +16,11 @@ namespace Project.API.Controllers.V1
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly AppSettings _appSettings;
+        public AuthController(IAuthService authService, IOptions<AppSettings> appSettings)
         {
             _authService = authService;
+            _appSettings = appSettings.Value;
         }
 
         [AllowAnonymous]
@@ -33,7 +37,7 @@ namespace Project.API.Controllers.V1
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddDays(7)
+                Expires = DateTimeOffset.UtcNow.AddDays(_appSettings.JwtConfig.RefreshTokenExpirationDays)
             });
 
             return Ok(new AuthResult

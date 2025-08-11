@@ -30,14 +30,18 @@ namespace MotorbikeRental.API.Extensions
                 byte[] key = Encoding.UTF8.GetBytes(configuration["AppSettings:JwtConfig:Secret"]);
                 jwt.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
+                    ValidIssuer = configuration["AppSettings:JwtConfig:ValidIssuer"],
+
                     ValidateAudience = true,
                     ValidAudience = configuration["AppSettings:JwtConfig:ValidAudience"],
-                    ValidIssuer = configuration["AppSettings:JwtConfig:ValidIssuer"],
+                    
                     ValidateLifetime = true,
                     RequireExpirationTime = true,
+
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+
                     ClockSkew = TimeSpan.Zero
                 };
             });
