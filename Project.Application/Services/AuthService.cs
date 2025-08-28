@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Project.Application.DTOs;
 using Project.Application.Exceptions;
 using Project.Application.Interfaces.IExternalServices.ITokenServices;
 using Project.Application.Interfaces.IServices;
+using Project.Common.Options;
 using Project.Domain.Entities;
 using Project.Domain.Interfaces.IRepositories;
 
@@ -14,12 +16,14 @@ namespace Project.Application.Services
         private readonly UserManager<User> _userManager;
         private readonly IJwtTokenService _jwtTokenService;
         private readonly ICurrentUserService _currentUserService;
-        public AuthService(IUnitOfWork unitOfWork, UserManager<User> userManager, IJwtTokenService jwtTokenService, ICurrentUserService currentUserService)
+        private readonly AppSettings _appSettings;
+        public AuthService(IUnitOfWork unitOfWork, UserManager<User> userManager, IJwtTokenService jwtTokenService, ICurrentUserService currentUserService, IOptions<AppSettings> appsettings)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _jwtTokenService = jwtTokenService;
             _currentUserService = currentUserService;
+            _appSettings = appsettings.Value;
         }
 
         public async Task<(string, string)> LoginAsync(LoginDto loginDto, string deviceInfo, string ipAddress, CancellationToken cancellationToken = default)
@@ -39,7 +43,7 @@ namespace Project.Application.Services
                 string accessToken = await _jwtTokenService.GenerateJwtTokenAsync(user, cancellationToken);
                 string refreshToken = _jwtTokenService.GenerateRefreshToken();
 
-                RefreshToken newToken = new RefreshToken(user.Id, refreshToken, DateTime.UtcNow.AddDays(7), deviceInfo, ipAddress);
+                RefreshToken newToken = new RefreshToken(user.Id, refreshToken, DateTime.UtcNow.AddDays(_appSettings.JwtConfig.RefreshTokenExpirationDays), deviceInfo, ipAddress);
 
                 _unitOfWork.RefreshTokenRepository.AddEntity(newToken);
 
@@ -94,7 +98,7 @@ namespace Project.Application.Services
                 string accessToken = await _jwtTokenService.GenerateJwtTokenAsync(user, cancellationToken);
                 string newRefreshToken = _jwtTokenService.GenerateRefreshToken();
 
-                RefreshToken newRefreshTokenEntity = new RefreshToken(user.Id, newRefreshToken, DateTime.UtcNow.AddDays(7), deviceInfo, ipAddress);
+                RefreshToken newRefreshTokenEntity = new RefreshToken(user.Id, newRefreshToken, DateTime.UtcNow.AddDays(_appSettings.JwtConfig.RefreshTokenExpirationDays), deviceInfo, ipAddress);
                 _unitOfWork.RefreshTokenRepository.AddEntity(newRefreshTokenEntity);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
