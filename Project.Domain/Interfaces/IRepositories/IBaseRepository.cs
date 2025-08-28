@@ -33,6 +33,8 @@ namespace Project.Domain.Interfaces.IRepositories
             int pageSize = 12,
             CancellationToken cancellationToken = default);
 
+        Task<int> GetCountAsync(Expression<Func<T, bool>> filters, CancellationToken cancellation = default);
+
         Task<T> CreateAsync(T model, CancellationToken cancellation = default);
 
         Task CreateRange(IEnumerable<T> models, CancellationToken cancellation = default);

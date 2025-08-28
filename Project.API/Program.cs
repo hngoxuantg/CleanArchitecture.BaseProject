@@ -109,15 +109,11 @@ if (app.Environment.IsDevelopment())
         options.DefaultModelsExpandDepth(-1);
         var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
-        app.UseSwaggerUI(options =>
+        foreach (var description in provider.ApiVersionDescriptions)
         {
-            foreach (var description in provider.ApiVersionDescriptions)
-            {
-                options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
-                                        $"API {description.GroupName.ToUpperInvariant()}");
-            }
-        });
-
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                                    $"API {description.GroupName.ToUpperInvariant()}");
+        }
     });
 }
 

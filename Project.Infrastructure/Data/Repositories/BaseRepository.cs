@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project.Domain.Entities;
 using Project.Domain.Interfaces.IRepositories;
 using Project.Infrastructure.Data.Contexts;
 using System.Linq.Expressions;
@@ -25,7 +24,7 @@ namespace Project.Infrastructure.Data.Repositories
         {
             return await _dbContext.Set<T>().FindAsync(id, cancellation);
         }
-
+        
         public async Task<T?> GetByIdAsync<Tid>(Tid id,
             Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
             CancellationToken cancellation = default)
@@ -113,6 +112,11 @@ namespace Project.Infrastructure.Data.Repositories
 
             query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
             return (await query.ToListAsync(cancellationToken), count);
+        }
+
+        public async Task<int> GetCountAsync(Expression<Func<T, bool>> filters, CancellationToken cancellation = default)
+        {
+            return await _dbContext.Set<T>().CountAsync(filters, cancellation);
         }
 
         public virtual async Task<T> CreateAsync(T model, CancellationToken cancellation = default)
