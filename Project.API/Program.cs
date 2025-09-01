@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using MotorbikeRental.API.Extensions;
 using Project.API.Extensions;
 using Project.API.Middlewares;
 using Project.Application.Interfaces.IDataSeedingServices;
+using Project.Application.Validators.AuthValidators;
 using Project.Common.Options;
 using Project.Infrastructure.Data.Contexts;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -60,6 +63,9 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
 });
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssembly(typeof(LoginValidator).Assembly);
 
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 

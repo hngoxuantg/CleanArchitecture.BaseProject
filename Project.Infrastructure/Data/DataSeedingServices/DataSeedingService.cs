@@ -6,7 +6,6 @@ using Project.Common.Options;
 using Project.Domain.Entities;
 using Project.Domain.Interfaces.IRepositories;
 using Project.Infrastructure.Data.Contexts;
-using System.Threading.Tasks;
 
 namespace Project.Infrastructure.Data.DataSeedingServices
 {
