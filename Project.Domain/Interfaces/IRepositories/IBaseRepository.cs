@@ -8,7 +8,8 @@ namespace Project.Domain.Interfaces.IRepositories
 
         Task<T?> GetByIdAsync<Tid>(Tid id, CancellationToken cancellation = default);
 
-        Task<T?> GetByIdAsync<Tid>(Tid id,
+        Task<T?> GetByIdAsync<Tid>(
+            Tid id,
             Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
             CancellationToken cancellation = default);
 
@@ -26,7 +27,8 @@ namespace Project.Domain.Interfaces.IRepositories
             Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
             CancellationToken cancellation = default);
 
-        Task<(IEnumerable<T>, int totalCount)> GetPagedAsync(Expression<Func<T, bool>>? filter = null,
+        Task<(IEnumerable<T>, int totalCount)> GetPagedAsync(
+            Expression<Func<T, bool>>? filter = null,
             Expression<Func<IQueryable<T>, IOrderedQueryable<T>>>? orderBy = null,
             Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
             int pageNumber = 1,
@@ -51,7 +53,11 @@ namespace Project.Domain.Interfaces.IRepositories
 
         Task<bool> IsExistsAsync<TValue>(TValue value, CancellationToken cancellation = default);
 
-        Task<bool> IsExistsForUpdateAsync<Tid, TValue>(Tid id, string key, TValue value, CancellationToken cancellation = default);
+        Task<bool> IsExistsForUpdateAsync<Tid, TValue>(
+            Tid id,
+            string key,
+            TValue value,
+            CancellationToken cancellation = default);
 
         void AddEntity(T entity);
 

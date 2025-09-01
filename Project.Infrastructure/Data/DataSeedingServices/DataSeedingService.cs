@@ -17,7 +17,12 @@ namespace Project.Infrastructure.Data.DataSeedingServices
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly AdminAccount _adminAccount;
-        public DataSeedingService(IUnitOfWork unitOfWork, UserManager<User> userManager, RoleManager<Role> roleManager, IOptions<AdminAccount> adminAccount, ApplicationDbContext applicationDbContext)
+        public DataSeedingService(
+            IUnitOfWork unitOfWork,
+            UserManager<User> userManager,
+            RoleManager<Role> roleManager,
+            IOptions<AdminAccount> adminAccount,
+            ApplicationDbContext applicationDbContext)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;

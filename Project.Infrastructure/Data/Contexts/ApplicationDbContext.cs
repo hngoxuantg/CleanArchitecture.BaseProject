@@ -9,7 +9,9 @@ namespace Project.Infrastructure.Data.Contexts
     public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
     {
         private readonly ICurrentUserService _currentUser;
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ICurrentUserService currentUser) : base(options)
+        public ApplicationDbContext(
+            DbContextOptions<ApplicationDbContext> options,
+            ICurrentUserService currentUser) : base(options)
         {
             _currentUser = currentUser;
         }

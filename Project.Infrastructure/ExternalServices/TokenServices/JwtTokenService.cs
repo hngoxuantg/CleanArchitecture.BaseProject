@@ -43,7 +43,9 @@ namespace Project.Infrastructure.ExternalServices.TokenServices
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_appSettings.JwtConfig.TokenExpirationMinutes)),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
             };
             SecurityToken token = jwtTokenHandler.CreateToken(securityTokenDescriptor);
             string jwtToken = jwtTokenHandler.WriteToken(token);

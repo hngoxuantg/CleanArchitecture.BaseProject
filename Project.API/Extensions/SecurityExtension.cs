@@ -18,8 +18,9 @@ namespace MotorbikeRental.API.Extensions
                 options.Password.RequireLowercase = true;
                 options.Password.RequiredLength = 6;
             }).AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders();
             #endregion
+            
             #region JWT configuration
             services.AddAuthentication(options =>
             {

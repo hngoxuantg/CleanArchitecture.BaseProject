@@ -13,6 +13,7 @@ namespace Project.API.Middlewares
             _next = next;
             _logger = logger;
         }
+
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -24,15 +25,21 @@ namespace Project.API.Middlewares
                 await HandleErrorAsync(context, ex);
             }
         }
+
         private async Task HandleErrorAsync(HttpContext context, Exception ex)
         {
             string message;
             int statusCode;
             string errorCode = "UNKNOWN";
             string errorType = ex.GetType().Name;
+
             if (ex is BaseCustomException)
             {
                 BaseCustomException baseCustomException = (BaseCustomException)ex;
+
+                _logger.LogWarning(ex, "Custom error occurred. ErrorCode: {ErrorCode}, ErrorType: {ErrorType}, Message: {Message}",
+                    baseCustomException.ErrorCode, baseCustomException.ErrorType, baseCustomException.Message);
+
                 message = baseCustomException.Message;
                 statusCode = (int)baseCustomException.HttpStatusCode;
                 errorCode = baseCustomException.ErrorCode;
@@ -43,9 +50,12 @@ namespace Project.API.Middlewares
                 message = ErrorMessages.SystemError;
                 statusCode = 500;
             }
-            _logger.LogError(ex, "Error occurred. StatusCode: {StatusCode}, ErrorCode: {ErrorCode}, ErrorType: {ErrorType}, Message: {Message}", statusCode, errorCode, errorType, message);
+            _logger.LogError(ex, "Error occurred. StatusCode: {StatusCode}, ErrorCode: {ErrorCode}, ErrorType: {ErrorType}, Message: {Message}",
+                statusCode, errorCode, errorType, message);
+
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = "application/json";
+
             var response = new
             {
                 success = false,
@@ -56,6 +66,7 @@ namespace Project.API.Middlewares
                     type = errorType
                 }
             };
+            
             var json = JsonSerializer.Serialize(response);
             await context.Response.WriteAsync(json);
         }

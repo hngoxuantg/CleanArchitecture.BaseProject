@@ -25,12 +25,18 @@ namespace Project.API.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginDto loginDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> LoginAsync(
+            [FromBody] LoginDto loginDto,
+            CancellationToken cancellationToken = default)
         {
             string deviceInfo = Request.Headers["User-Agent"].ToString();
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown IP";
 
-            (string accessToken, string refreshToken) = await _authService.LoginAsync(loginDto,deviceInfo, ipAddress, cancellationToken);
+            (string accessToken, string refreshToken) = await _authService.LoginAsync(
+                loginDto,
+                deviceInfo,
+                ipAddress,
+                cancellationToken);
 
             Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
             {
@@ -80,7 +86,11 @@ namespace Project.API.Controllers.V1
             string deviceInfo = Request.Headers["User-Agent"].ToString();
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown IP";
 
-            (string accessToken, string newRefreshToken) = await _authService.RefreshAsync(refreshToken, deviceInfo, ipAddress, cancellationToken);
+            (string accessToken, string newRefreshToken) = await _authService.RefreshAsync(
+                refreshToken,
+                deviceInfo,
+                ipAddress,
+                cancellationToken);
 
             Response.Cookies.Append("refreshToken", newRefreshToken, new CookieOptions
             {

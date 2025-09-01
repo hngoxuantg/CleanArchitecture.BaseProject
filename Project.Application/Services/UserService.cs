@@ -12,7 +12,11 @@ namespace Project.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
-        public UserService(IMapper mapper, IUnitOfWork unitOfWork, RoleManager<Role> roleManager, UserManager<User> userManager)
+        public UserService(
+            IMapper mapper,
+            IUnitOfWork unitOfWork,
+            RoleManager<Role> roleManager,
+            UserManager<User> userManager)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;

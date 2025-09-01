@@ -18,7 +18,12 @@ namespace Project.Domain.Entities
         {
         }
 
-        public Product(string name, decimal price, Guid? categoryId = null, string? description = null, string? imageUrl = null)
+        public Product(
+            string name,
+            decimal price,
+            Guid? categoryId = null,
+            string? description = null,
+            string? imageUrl = null)
         {
             Name = name;
             Price = price;

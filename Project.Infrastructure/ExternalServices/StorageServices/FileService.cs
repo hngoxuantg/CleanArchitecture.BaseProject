@@ -13,7 +13,11 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
             _baseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
             Directory.CreateDirectory(_baseDirectory);
         }
-        public async Task<string> SaveImageAsync(IFormFile formFile, string folder, CancellationToken cancellationToken = default)
+
+        public async Task<string> SaveImageAsync(
+            IFormFile formFile,
+            string folder,
+            CancellationToken cancellationToken = default)
         {
             if (!IsValidImage(formFile))
                 throw new Exception("File is invalid or empty.");
@@ -31,7 +35,11 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
 
             return Path.Combine("/uploads", folder, fileName).Replace("\\", "/");
         }
-        public async Task<List<string>> SaveImagesAsync(IList<IFormFile> formFiles, string folder, CancellationToken cancellationToken = default)
+
+        public async Task<List<string>> SaveImagesAsync(
+            IList<IFormFile> formFiles,
+            string folder,
+            CancellationToken cancellationToken = default)
         {
             List<string> filePaths = new List<string>();
 
@@ -45,6 +53,7 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
 
             return filePaths;
         }
+
         public bool IsValidImage(IFormFile formFile)
         {
             if (formFile == null || formFile.Length == 0)
@@ -57,10 +66,11 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
 
             return _allowedExtensions.Contains(extension);
         }
+
         public bool DeleteFile(string filePath)
         {
             string relativePath = filePath.TrimStart('/', '\\');
-            
+
             if (relativePath.StartsWith("uploads", StringComparison.OrdinalIgnoreCase))
             {
                 relativePath = relativePath.Substring("uploads".Length).TrimStart('/', '\\');
@@ -83,10 +93,12 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
 
             return false;
         }
+
         public bool FileExists(string filePath)
         {
             return File.Exists(Path.Combine(_baseDirectory, filePath).Replace("/", "\\"));
         }
+
         public bool DeleteFiles(IList<string> filePaths)
         {
             bool allDeleted = true;
@@ -96,9 +108,10 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
                 if (!DeleteFile(filePaths[i]))
                     allDeleted = false;
             }
-            
+
             return allDeleted;
         }
+
         public string GetFileUrl(string relativePath)
         {
             return $"/uploads/{relativePath}";

@@ -17,7 +17,12 @@ namespace Project.Application.Services
         private readonly IJwtTokenService _jwtTokenService;
         private readonly ICurrentUserService _currentUserService;
         private readonly AppSettings _appSettings;
-        public AuthService(IUnitOfWork unitOfWork, UserManager<User> userManager, IJwtTokenService jwtTokenService, ICurrentUserService currentUserService, IOptions<AppSettings> appsettings)
+        public AuthService(
+            IUnitOfWork unitOfWork,
+            UserManager<User> userManager,
+            IJwtTokenService jwtTokenService,
+            ICurrentUserService currentUserService,
+            IOptions<AppSettings> appsettings)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
@@ -26,7 +31,11 @@ namespace Project.Application.Services
             _appSettings = appsettings.Value;
         }
 
-        public async Task<(string, string)> LoginAsync(LoginDto loginDto, string deviceInfo, string ipAddress, CancellationToken cancellationToken = default)
+        public async Task<(string, string)> LoginAsync(
+            LoginDto loginDto,
+            string deviceInfo,
+            string ipAddress,
+            CancellationToken cancellationToken = default)
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
             try
@@ -34,7 +43,9 @@ namespace Project.Application.Services
                 if(_currentUserService.IsAuthenticated)
                     throw new ValidatorException("User is already authenticated");
 
-                User? user = await _unitOfWork.UserRepository.GetOneAsync<User>(filter: u => u.UserName == loginDto.UserName, cancellation: cancellationToken)
+                User? user = await _unitOfWork.UserRepository.GetOneAsync<User>(
+                    filter: u => u.UserName == loginDto.UserName,
+                    cancellation: cancellationToken)
                     ?? throw new NotFoundException($"User with UserName {loginDto.UserName} not found");
 
                 if (!await _userManager.CheckPasswordAsync(user, loginDto.Password))
@@ -43,7 +54,11 @@ namespace Project.Application.Services
                 string accessToken = await _jwtTokenService.GenerateJwtTokenAsync(user, cancellationToken);
                 string refreshToken = _jwtTokenService.GenerateRefreshToken();
 
-                RefreshToken newToken = new RefreshToken(user.Id, refreshToken, DateTime.UtcNow.AddDays(_appSettings.JwtConfig.RefreshTokenExpirationDays), deviceInfo, ipAddress);
+                RefreshToken newToken = new RefreshToken(
+                    user.Id, refreshToken,
+                    DateTime.UtcNow.AddDays(_appSettings.JwtConfig.RefreshTokenExpirationDays),
+                    deviceInfo,
+                    ipAddress);
 
                 _unitOfWork.RefreshTokenRepository.AddEntity(newToken);
 
@@ -52,7 +67,7 @@ namespace Project.Application.Services
 
                 return (accessToken, refreshToken);
             }
-            catch (Exception ex)
+            catch
             {
                 await _unitOfWork.RollbackTransactionAsync(cancellationToken);
                 throw;
@@ -78,7 +93,11 @@ namespace Project.Application.Services
             return true;
         }
 
-        public async Task<(string, string)> RefreshAsync(string? refreshToken, string? deviceInfo, string? ipAddress, CancellationToken cancellationToken = default)
+        public async Task<(string, string)> RefreshAsync(
+            string? refreshToken,
+            string? deviceInfo,
+            string? ipAddress,
+            CancellationToken cancellationToken = default)
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
             try
@@ -90,7 +109,9 @@ namespace Project.Application.Services
                 if (!oldToken.IsActive)
                     throw new ValidatorException("Refresh token is not active or has expired");
 
-                User? user = await _unitOfWork.UserRepository.GetByIdAsync(oldToken.UserId, cancellation: cancellationToken)
+                User? user = await _unitOfWork.UserRepository.GetByIdAsync(
+                    oldToken.UserId,
+                    cancellation: cancellationToken)
                     ?? throw new NotFoundException("User not found");
 
                 oldToken.Revoke();
@@ -98,7 +119,12 @@ namespace Project.Application.Services
                 string accessToken = await _jwtTokenService.GenerateJwtTokenAsync(user, cancellationToken);
                 string newRefreshToken = _jwtTokenService.GenerateRefreshToken();
 
-                RefreshToken newRefreshTokenEntity = new RefreshToken(user.Id, newRefreshToken, DateTime.UtcNow.AddDays(_appSettings.JwtConfig.RefreshTokenExpirationDays), deviceInfo, ipAddress);
+                RefreshToken newRefreshTokenEntity = new RefreshToken(
+                    user.Id, newRefreshToken,
+                    DateTime.UtcNow.AddDays(_appSettings.JwtConfig.RefreshTokenExpirationDays),
+                    deviceInfo,
+                    ipAddress);
+                    
                 _unitOfWork.RefreshTokenRepository.AddEntity(newRefreshTokenEntity);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -106,7 +132,7 @@ namespace Project.Application.Services
 
                 return (accessToken, newRefreshToken);
             }
-            catch (Exception ex)
+            catch
             {
                 await _unitOfWork.RollbackTransactionAsync(cancellationToken);
                 throw;

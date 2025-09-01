@@ -31,7 +31,12 @@ namespace Project.Infrastructure.Data.Repositories
         {
             if (include == null)
                 return await _dbContext.Set<T>().FindAsync(id, cancellation);
-            string? keyProperty = _dbContext.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties?.FirstOrDefault()?.Name;
+            string? keyProperty = _dbContext.Model
+                .FindEntityType(typeof(T))?
+                .FindPrimaryKey()?
+                .Properties?
+                .FirstOrDefault()?
+                .Name;
 
             var parameter = Expression.Parameter(typeof(T), "x");
             var property = Expression.Property(parameter, keyProperty);
@@ -90,7 +95,8 @@ namespace Project.Infrastructure.Data.Repositories
                 return await query.Cast<TResult>().FirstOrDefaultAsync(cancellation);
         }
 
-        public virtual async Task<(IEnumerable<T>, int totalCount)> GetPagedAsync(Expression<Func<T, bool>>? filter = null,
+        public virtual async Task<(IEnumerable<T>, int totalCount)> GetPagedAsync(
+            Expression<Func<T, bool>>? filter = null,
             Expression<Func<IQueryable<T>, IOrderedQueryable<T>>>? orderBy = null,
             Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
             int pageNumber = 1,
@@ -114,7 +120,9 @@ namespace Project.Infrastructure.Data.Repositories
             return (await query.ToListAsync(cancellationToken), count);
         }
 
-        public async Task<int> GetCountAsync(Expression<Func<T, bool>> filters, CancellationToken cancellation = default)
+        public async Task<int> GetCountAsync(
+            Expression<Func<T, bool>> filters,
+            CancellationToken cancellation = default)
         {
             return await _dbContext.Set<T>().CountAsync(filters, cancellation);
         }
@@ -163,7 +171,12 @@ namespace Project.Infrastructure.Data.Repositories
 
         public async Task<bool> IsExistsAsync<TValue>(TValue value, CancellationToken cancellation = default)
         {
-            string? id = _dbContext.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties.FirstOrDefault()?.Name;
+            string? id = _dbContext.Model
+                .FindEntityType(typeof(T))?
+                .FindPrimaryKey()?
+                .Properties
+                .FirstOrDefault()?
+                .Name;
 
             var parameter = Expression.Parameter(typeof(T), "x");
             var property = Expression.Property(parameter, id ?? "Id");
@@ -174,9 +187,18 @@ namespace Project.Infrastructure.Data.Repositories
             return await _dbContext.Set<T>().AnyAsync(lamda, cancellation);
         }
 
-        public async Task<bool> IsExistsForUpdateAsync<Tid, TValue>(Tid id, string key, TValue value, CancellationToken cancellation = default)
+        public async Task<bool> IsExistsForUpdateAsync<Tid, TValue>(
+            Tid id,
+            string key,
+            TValue value,
+            CancellationToken cancellation = default)
         {
-            string? idPrimary = _dbContext.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties.FirstOrDefault()?.Name;
+            string? idPrimary = _dbContext.Model
+                .FindEntityType(typeof(T))?
+                .FindPrimaryKey()?
+                .Properties
+                .FirstOrDefault()?
+                .Name;
 
             var parameter = Expression.Parameter(typeof(T), "x");
             var property = Expression.Property(parameter, key);
