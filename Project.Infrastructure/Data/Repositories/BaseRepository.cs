@@ -24,7 +24,7 @@ namespace Project.Infrastructure.Data.Repositories
         {
             return await _dbContext.Set<T>().FindAsync(id, cancellation);
         }
-        
+
         public async Task<T?> GetByIdAsync<Tid>(Tid id,
             Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
             CancellationToken cancellation = default)
@@ -48,7 +48,7 @@ namespace Project.Infrastructure.Data.Repositories
 
             return await include.Compile()(query).Where(lamda).FirstOrDefaultAsync(cancellation);
         }
-        
+
         public async Task<TResult?> GetOneUntrackedAsync<TResult>(
             Expression<Func<T, bool>>? filter = null,
             Expression<Func<IQueryable<T>, IOrderedQueryable<T>>>? orderBy = null,
@@ -121,10 +121,15 @@ namespace Project.Infrastructure.Data.Repositories
         }
 
         public async Task<int> GetCountAsync(
-            Expression<Func<T, bool>> filters,
+            Expression<Func<T, bool>>? filters = null,
             CancellationToken cancellation = default)
         {
-            return await _dbContext.Set<T>().CountAsync(filters, cancellation);
+            IQueryable<T> query = _dbContext.Set<T>().AsNoTracking();
+            
+            if (filters != null)
+                query = query.Where(filters);
+                
+            return await query.CountAsync(cancellation);
         }
 
         public virtual async Task<T> CreateAsync(T model, CancellationToken cancellation = default)
