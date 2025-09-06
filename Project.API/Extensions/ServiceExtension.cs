@@ -1,10 +1,12 @@
 ﻿using Project.Application.Interfaces.IDataSeedingServices;
+using Project.Application.Interfaces.IExternalServices;
 using Project.Application.Interfaces.IExternalServices.ITokenServices;
 using Project.Application.Interfaces.IServices;
 using Project.Application.Services;
 using Project.Domain.Interfaces.IRepositories;
 using Project.Infrastructure.Data.DataSeedingServices;
 using Project.Infrastructure.Data.Repositories;
+using Project.Infrastructure.ExternalServices.StorageServices;
 using Project.Infrastructure.ExternalServices.TokenServices;
 
 namespace Project.API.Extensions
@@ -21,6 +23,7 @@ namespace Project.API.Extensions
         public static IServiceCollection RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IJwtTokenService, JwtTokenService>();
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             return services;
