@@ -24,6 +24,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("PrimaryDbConnection"));
 });
+
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.Configure<AdminAccount>(builder.Configuration.GetSection("AdminAccount"));
 
