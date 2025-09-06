@@ -16,7 +16,7 @@ namespace Project.API.Extensions
         {
             foreach (var description in _provider.ApiVersionDescriptions)
             {
-                options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description)); 
+                options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
             }
         }
         private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
