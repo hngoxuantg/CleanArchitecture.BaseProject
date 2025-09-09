@@ -1,19 +1,24 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 using Project.Application.Interfaces.IServices;
 using Project.Domain.Entities;
+using Project.Domain.Entities.BaseEntities;
 
 namespace Project.Infrastructure.Data.Contexts
 {
     public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
     {
         private readonly ICurrentUserService _currentUser;
+        private readonly ILogger<ApplicationDbContext> _logger;
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
-            ICurrentUserService currentUser) : base(options)
+            ICurrentUserService currentUser,
+            ILogger<ApplicationDbContext> logger) : base(options)
         {
             _currentUser = currentUser;
+            _logger = logger;
         }
         #region DbSet Section
         public DbSet<Role> Roles { get; set; }
@@ -38,12 +43,20 @@ namespace Project.Infrastructure.Data.Contexts
                 if (entry.State == EntityState.Added)
                 {
                     entry.Entity.SetCreated(userId);
-                    Console.WriteLine(userId);
+                    _logger.LogInformation("User {User} created entity {EntityType} with Id {EntityId}",
+                                   _currentUser.UserName, entry.Entity.GetType().Name, entry.Entity.Id);
                 }
                 else if (entry.State == EntityState.Modified)
                 {
                     entry.Entity.SetUpdated(userId);
-                    Console.WriteLine(_currentUser.UserName);
+                    _logger.LogInformation("User {User} updated entity {EntityType} with Id {EntityId}",
+                                  _currentUser.UserName, entry.Entity.GetType().Name, entry.Entity.Id);
+                }
+                else if (entry.State == EntityState.Deleted && entry.Entity is SoftDeleteEntity softDelete)
+                {
+                    entry.State = EntityState.Modified;
+                    _logger.LogWarning("User {User} soft-deleted entity {EntityType} with Id {EntityId}",
+                               _currentUser.UserName, entry.Entity.GetType().Name, entry.Entity.Id);
                 }
             }
 

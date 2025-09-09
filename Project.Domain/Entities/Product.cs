@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Project.Domain.Entities.BaseEntities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project.Domain.Entities
 {
-    public class Product : BaseEntity
+    public class Product : SoftDeleteEntity
     {
         [Required, MaxLength(55)]
         public string Name { get; set; }

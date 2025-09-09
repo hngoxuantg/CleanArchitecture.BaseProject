@@ -1,4 +1,6 @@
-﻿namespace Project.Domain.Entities
+﻿using Project.Domain.Entities.BaseEntities;
+
+namespace Project.Domain.Entities
 {
     public class RefreshToken : BaseEntity
     {
