@@ -102,9 +102,15 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+#region Database Initialization
 using var scope = app.Services.CreateScope();
+
+var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+await db.Database.MigrateAsync();
+
 var seedingService = scope.ServiceProvider.GetRequiredService<IDataSeedingService>();
 await seedingService.SeedDataAsync();
+#endregion
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
