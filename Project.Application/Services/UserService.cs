@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Project.Application.Interfaces.IServices;
-using Project.Domain.Entities;
+using Project.Domain.Entities.Identity_Auth;
 using Project.Domain.Interfaces.IRepositories;
 
 namespace Project.Application.Services

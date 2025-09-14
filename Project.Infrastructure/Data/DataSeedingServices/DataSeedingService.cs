@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Project.Application.Interfaces.IDataSeedingServices;
 using Project.Common.Options;
-using Project.Domain.Entities;
+using Project.Domain.Entities.Identity_Auth;
 using Project.Domain.Interfaces.IRepositories;
 using Project.Infrastructure.Data.Contexts;
 

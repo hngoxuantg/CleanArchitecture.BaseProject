@@ -49,7 +49,6 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
-builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddApiVersioning(options =>
 {

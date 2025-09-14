@@ -164,6 +164,34 @@ namespace Project.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AuditLog",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EntityType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IPAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserAgent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CorrelationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Source = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RequestPath = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLog", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AuditLog_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Category",
                 columns: table => new
                 {
@@ -173,7 +201,11 @@ namespace Project.Infrastructure.Migrations
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    UpdateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeleteBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeleteAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleteByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -181,6 +213,11 @@ namespace Project.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Category_User_CreateBy",
                         column: x => x.CreateBy,
+                        principalTable: "User",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Category_User_DeleteByUserId",
+                        column: x => x.DeleteByUserId,
                         principalTable: "User",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -242,7 +279,11 @@ namespace Project.Infrastructure.Migrations
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    UpdateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeleteBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeleteAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleteByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -256,6 +297,11 @@ namespace Project.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Product_User_CreateBy",
                         column: x => x.CreateBy,
+                        principalTable: "User",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Product_User_DeleteByUserId",
+                        column: x => x.DeleteByUserId,
                         principalTable: "User",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -286,9 +332,19 @@ namespace Project.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuditLog_UserId",
+                table: "AuditLog",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Category_CreateBy",
                 table: "Category",
                 column: "CreateBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Category_DeleteByUserId",
+                table: "Category",
+                column: "DeleteByUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Category_UpdateBy",
@@ -304,6 +360,11 @@ namespace Project.Infrastructure.Migrations
                 name: "IX_Product_CreateBy",
                 table: "Product",
                 column: "CreateBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_DeleteByUserId",
+                table: "Product",
+                column: "DeleteByUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_UpdateBy",
@@ -362,6 +423,9 @@ namespace Project.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "AuditLog");
 
             migrationBuilder.DropTable(
                 name: "Product");

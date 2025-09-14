@@ -1,4 +1,4 @@
-﻿using Project.Domain.Entities;
+﻿using Project.Domain.Entities.Identity_Auth;
 
 namespace Project.Application.Interfaces.IExternalServices.ITokenServices
 {
