@@ -34,16 +34,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.Register();
 builder.Services.RegisterSecurityService(builder.Configuration);
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://localhost:5174", "https://localhost:5174")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
-    });
-});
+builder.Services.AddCustomCors(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -130,7 +121,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseCors("AllowFrontend");
+app.UseCors(CorsExtension.GetPolicyName());
 
 #region Custom Middlewares
 app.UseExceptionHandling();
