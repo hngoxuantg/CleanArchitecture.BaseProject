@@ -1,7 +1,7 @@
-﻿using Project.Domain.Entities.BaseEntities;
+﻿using Project.Domain.Entities.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace Project.Domain.Entities
+namespace Project.Domain.Entities.Business
 {
     public class Product : SoftDeleteEntity
     {

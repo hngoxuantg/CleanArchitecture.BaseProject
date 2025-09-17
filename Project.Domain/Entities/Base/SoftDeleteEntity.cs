@@ -1,6 +1,6 @@
 ﻿using Project.Domain.Entities.Identity_Auth;
 
-namespace Project.Domain.Entities.BaseEntities
+namespace Project.Domain.Entities.Base
 {
     public abstract class SoftDeleteEntity : BaseEntity
     {

@@ -1,4 +1,4 @@
-﻿using Project.Domain.Entities.BaseEntities;
+﻿using Project.Domain.Entities.Base;
 
 namespace Project.Domain.Entities.Identity_Auth
 {

@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 using Project.Application.Interfaces.IServices;
-using Project.Domain.Entities;
-using Project.Domain.Entities.BaseEntities;
+using Project.Domain.Entities.Base;
+using Project.Domain.Entities.Business;
 using Project.Domain.Entities.Identity_Auth;
 using Project.Domain.Entities.System_Logs;
 

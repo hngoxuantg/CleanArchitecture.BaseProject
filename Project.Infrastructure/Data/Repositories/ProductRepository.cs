@@ -1,4 +1,4 @@
-﻿using Project.Domain.Entities;
+﻿using Project.Domain.Entities.Business;
 using Project.Domain.Interfaces.IRepositories;
 using Project.Infrastructure.Data.Contexts;
 

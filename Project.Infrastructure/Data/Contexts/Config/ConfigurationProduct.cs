@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Project.Domain.Entities;
+using Project.Domain.Entities.Business;
 
 namespace Project.Infrastructure.Data.Contexts.Config
 {
