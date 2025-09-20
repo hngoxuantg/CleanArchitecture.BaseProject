@@ -2,50 +2,45 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MotorbikeRental.API.Extensions;
 using Project.API.Extensions;
 using Project.API.Middlewares;
 using Project.Application.Interfaces.IDataSeedingServices;
 using Project.Application.Validators.AuthValidators;
-using Project.Common.Options;
 using Project.Infrastructure.Data.Contexts;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
+#region Database
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("PrimaryDbConnection"));
 });
+#endregion
 
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.Configure<AdminAccount>(builder.Configuration.GetSection("AdminAccount"));
+#region Options
+builder.Services.AddCustomOptions(builder.Configuration);
+#endregion
 
-builder.Services.AddMemoryCache();
-builder.Services.AddHttpContextAccessor();
-
+#region Custom Services
 builder.Services.Register();
 builder.Services.RegisterSecurityService(builder.Configuration);
-
 builder.Services.AddCustomCors(builder.Configuration);
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddAuthorization();
-
 builder.Services.AddCustomApiVersioning();
+builder.Services.AddCustomSwagger();
+#endregion
 
+#region Framework Services
+builder.Services.AddControllers();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddAuthorization();
+#endregion
+
+#region Validation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(typeof(LoginValidator).Assembly);
-
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-
-builder.Services.AddCustomSwagger();
+#endregion
 
 var app = builder.Build();
 
@@ -59,7 +54,7 @@ var seedingService = scope.ServiceProvider.GetRequiredService<IDataSeedingServic
 await seedingService.SeedDataAsync();
 #endregion
 
-// Configure the HTTP request pipeline.
+#region Middleware Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -89,5 +84,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+#endregion
 
 app.Run();
