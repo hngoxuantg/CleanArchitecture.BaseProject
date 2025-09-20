@@ -50,7 +50,8 @@ namespace Project.API.Controllers.V1
             {
                 Success = true,
                 Message = "Login successful",
-                AccessToken = accessToken
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
             });
         }
 
@@ -104,7 +105,8 @@ namespace Project.API.Controllers.V1
             {
                 Success = true,
                 Message = "Token refreshed successfully",
-                AccessToken = accessToken
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
             });
         }
     }

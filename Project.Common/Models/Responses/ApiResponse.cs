@@ -31,6 +31,7 @@
         public bool Success { get; set; }
         public string? Message { get; set; }
         public string? AccessToken { get; set; }
+        public string? RefreshToken { get; set; }
         public AuthResult() { }
         public AuthResult(bool success, string? message, string? accessToken)
         {
