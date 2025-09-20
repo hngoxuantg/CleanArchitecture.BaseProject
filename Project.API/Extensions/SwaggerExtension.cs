@@ -2,7 +2,7 @@
 
 namespace Project.API.Extensions
 {
-    public static class SwaggerExtensions
+    public static class SwaggerExtension
     {
         public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
         {
