@@ -19,15 +19,15 @@ namespace Project.Infrastructure.Data.Contexts.Config
             builder.Property(rt => rt.ExpiresAt).IsRequired();
             builder.Property(rt => rt.Revoked).IsRequired(false);
             builder.Property(rt => rt.DeviceInfo).HasMaxLength(200);
-            builder.Property(rt => rt.IpAddress).HasMaxLength(45); 
+            builder.Property(rt => rt.IpAddress).HasMaxLength(45);
             builder.HasOne(rt => rt.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(rt => rt.CreateBy)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
             builder.HasOne(rt => rt.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(rt => rt.UpdateBy)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
