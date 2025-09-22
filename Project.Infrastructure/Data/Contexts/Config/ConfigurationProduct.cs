@@ -9,7 +9,9 @@ namespace Project.Infrastructure.Data.Contexts.Config
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.ToTable("Product");
+
             builder.HasKey(p => p.Id);
+
             builder.HasOne(p => p.Category)
                 .WithMany(pc => pc.Products)
                 .HasForeignKey(pc => pc.CategoryId)

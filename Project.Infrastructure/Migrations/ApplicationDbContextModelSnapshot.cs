@@ -125,7 +125,7 @@ namespace Project.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Project.Domain.Entities.Category", b =>
+            modelBuilder.Entity("Project.Domain.Entities.Business.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,9 +141,6 @@ namespace Project.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DeleteBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("DeleteByUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -167,13 +164,59 @@ namespace Project.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreateBy");
-
-                    b.HasIndex("DeleteByUserId");
-
-                    b.HasIndex("UpdateBy");
-
                     b.ToTable("Category", (string)null);
+                });
+
+            modelBuilder.Entity("Project.Domain.Entities.Business.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeleteBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(55)
+                        .HasColumnType("nvarchar(55)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdateBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Product", (string)null);
                 });
 
             modelBuilder.Entity("Project.Domain.Entities.Identity_Auth.RefreshToken", b =>
@@ -217,10 +260,6 @@ namespace Project.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreateBy");
-
-                    b.HasIndex("UpdateBy");
 
                     b.HasIndex("UserId");
 
@@ -343,67 +382,6 @@ namespace Project.Infrastructure.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Project.Domain.Entities.Product", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeleteAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("DeleteBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("DeleteByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(55)
-                        .HasColumnType("nvarchar(55)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdateBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("CreateBy");
-
-                    b.HasIndex("DeleteByUserId");
-
-                    b.HasIndex("UpdateBy");
-
-                    b.ToTable("Product", (string)null);
-                });
-
             modelBuilder.Entity("Project.Domain.Entities.System_Logs.AuditLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -503,78 +481,25 @@ namespace Project.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Project.Domain.Entities.Category", b =>
+            modelBuilder.Entity("Project.Domain.Entities.Business.Product", b =>
                 {
-                    b.HasOne("Project.Domain.Entities.Identity_Auth.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreateBy");
+                    b.HasOne("Project.Domain.Entities.Business.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Project.Domain.Entities.Identity_Auth.User", "DeleteByUser")
-                        .WithMany()
-                        .HasForeignKey("DeleteByUserId");
-
-                    b.HasOne("Project.Domain.Entities.Identity_Auth.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdateBy");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("DeleteByUser");
-
-                    b.Navigation("UpdatedByUser");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Project.Domain.Entities.Identity_Auth.RefreshToken", b =>
                 {
-                    b.HasOne("Project.Domain.Entities.Identity_Auth.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreateBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Project.Domain.Entities.Identity_Auth.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdateBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Project.Domain.Entities.Identity_Auth.User", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Project.Domain.Entities.Product", b =>
-                {
-                    b.HasOne("Project.Domain.Entities.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Project.Domain.Entities.Identity_Auth.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreateBy");
-
-                    b.HasOne("Project.Domain.Entities.Identity_Auth.User", "DeleteByUser")
-                        .WithMany()
-                        .HasForeignKey("DeleteByUserId");
-
-                    b.HasOne("Project.Domain.Entities.Identity_Auth.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdateBy");
-
-                    b.Navigation("Category");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("DeleteByUser");
-
-                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("Project.Domain.Entities.System_Logs.AuditLog", b =>
@@ -587,7 +512,7 @@ namespace Project.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Project.Domain.Entities.Category", b =>
+            modelBuilder.Entity("Project.Domain.Entities.Business.Category", b =>
                 {
                     b.Navigation("Products");
                 });

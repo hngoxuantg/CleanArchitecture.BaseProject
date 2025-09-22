@@ -12,6 +12,26 @@ namespace Project.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeleteBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeleteAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
                 {
@@ -55,6 +75,35 @@ namespace Project.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(55)", maxLength: 55, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeleteBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeleteAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,42 +241,6 @@ namespace Project.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeleteBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DeleteAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleteByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Category", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Category_User_CreateBy",
-                        column: x => x.CreateBy,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Category_User_DeleteByUserId",
-                        column: x => x.DeleteByUserId,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Category_User_UpdateBy",
-                        column: x => x.UpdateBy,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RefreshToken",
                 columns: table => new
                 {
@@ -247,68 +260,11 @@ namespace Project.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_RefreshToken", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RefreshToken_User_CreateBy",
-                        column: x => x.CreateBy,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RefreshToken_User_UpdateBy",
-                        column: x => x.UpdateBy,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_RefreshToken_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Product",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(55)", maxLength: 55, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeleteBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DeleteAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleteByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Product_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_Product_User_CreateBy",
-                        column: x => x.CreateBy,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Product_User_DeleteByUserId",
-                        column: x => x.DeleteByUserId,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Product_User_UpdateBy",
-                        column: x => x.UpdateBy,
-                        principalTable: "User",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -337,49 +293,9 @@ namespace Project.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_CreateBy",
-                table: "Category",
-                column: "CreateBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Category_DeleteByUserId",
-                table: "Category",
-                column: "DeleteByUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Category_UpdateBy",
-                table: "Category",
-                column: "UpdateBy");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Product_CategoryId",
                 table: "Product",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_CreateBy",
-                table: "Product",
-                column: "CreateBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_DeleteByUserId",
-                table: "Product",
-                column: "DeleteByUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_UpdateBy",
-                table: "Product",
-                column: "UpdateBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RefreshToken_CreateBy",
-                table: "RefreshToken",
-                column: "CreateBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RefreshToken_UpdateBy",
-                table: "RefreshToken",
-                column: "UpdateBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshToken_UserId",

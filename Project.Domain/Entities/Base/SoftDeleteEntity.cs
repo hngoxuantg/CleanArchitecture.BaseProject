@@ -5,9 +5,10 @@ namespace Project.Domain.Entities.Base
     public abstract class SoftDeleteEntity : BaseEntity
     {
         public bool IsDeleted { get; set; } = false;
+
         public Guid? DeleteBy { get; set; }
+
         public DateTime? DeleteAt { get; set; }
-        public virtual User? DeleteByUser { get; set; }
 
         public virtual void SetDeleted(Guid? deleteBy)
         {

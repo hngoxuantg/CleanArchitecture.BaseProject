@@ -9,25 +9,32 @@ namespace Project.Infrastructure.Data.Contexts.Config
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
             builder.ToTable("RefreshToken");
+
             builder.HasKey(rt => rt.Id);
-            builder.Property(rt => rt.UserId).IsRequired();
+
+            builder.Property(rt => rt.UserId)
+                .IsRequired();
+
             builder.HasOne(rt => rt.User)
                 .WithMany(u => u.RefreshTokens)
                 .HasForeignKey(rt => rt.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.Property(rt => rt.Token).IsRequired().HasMaxLength(500);
-            builder.Property(rt => rt.ExpiresAt).IsRequired();
-            builder.Property(rt => rt.Revoked).IsRequired(false);
-            builder.Property(rt => rt.DeviceInfo).HasMaxLength(200);
-            builder.Property(rt => rt.IpAddress).HasMaxLength(45);
-            builder.HasOne(rt => rt.CreatedByUser)
-                .WithMany()
-                .HasForeignKey(rt => rt.CreateBy)
-                .OnDelete(DeleteBehavior.SetNull);
-            builder.HasOne(rt => rt.UpdatedByUser)
-                .WithMany()
-                .HasForeignKey(rt => rt.UpdateBy)
-                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Property(rt => rt.Token)
+                .IsRequired()
+                .HasMaxLength(500);
+
+            builder.Property(rt => rt.ExpiresAt)
+                .IsRequired();
+
+            builder.Property(rt => rt.Revoked)
+                .IsRequired(false);
+
+            builder.Property(rt => rt.DeviceInfo)
+                .HasMaxLength(200);
+
+            builder.Property(rt => rt.IpAddress)
+                .HasMaxLength(45);
         }
     }
 }
