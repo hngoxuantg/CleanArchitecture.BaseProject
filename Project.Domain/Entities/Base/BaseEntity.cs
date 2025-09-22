@@ -1,8 +1,4 @@
-﻿using Project.Domain.Entities.Identity_Auth;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Project.Domain.Entities.Base
+﻿namespace Project.Domain.Entities.Base
 {
     public abstract class BaseEntity
     {
