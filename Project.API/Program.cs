@@ -78,6 +78,7 @@ app.UseCors(CorsExtension.GetPolicyName());
 #region Custom Middlewares
 app.UseExceptionHandling();
 app.UseRequestResponseLogging();
+app.UseApiKey();
 #endregion
 
 app.UseAuthentication();

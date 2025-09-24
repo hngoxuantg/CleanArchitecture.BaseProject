@@ -52,6 +52,15 @@ namespace Project.API.Extensions
                     Scheme = "Bearer"
                 });
 
+                options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+                {
+                    Description = "API Key needed to access the endpoints. Example: X-Api-Key: {your_key}",
+                    Name = "X-Api-Key",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "ApiKey"
+                });
+
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
                     {
@@ -67,7 +76,19 @@ namespace Project.API.Extensions
                             In = ParameterLocation.Header,
                         },
                         Array.Empty<string>()
-                    }
+                    },
+
+                    {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "ApiKey"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
                 });
             });
 
