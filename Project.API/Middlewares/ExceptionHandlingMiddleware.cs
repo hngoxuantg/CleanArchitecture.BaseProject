@@ -66,16 +66,16 @@ namespace Project.API.Middlewares
                     type = errorType
                 }
             };
-            
+
             var json = JsonSerializer.Serialize(response);
             await context.Response.WriteAsync(json);
         }
     }
     public static class ExceptionHandlingMiddlewareExtensions
     {
-        public static IApplicationBuilder UseExceptionHandling(this IApplicationBuilder applicationBuilder)
+        public static IApplicationBuilder UseExceptionHandling(this IApplicationBuilder builder)
         {
-            return applicationBuilder.UseMiddleware<ExceptionHandlingMiddleware>();
+            return builder.UseMiddleware<ExceptionHandlingMiddleware>();
         }
     }
 }
