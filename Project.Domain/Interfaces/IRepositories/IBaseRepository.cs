@@ -51,7 +51,7 @@ namespace Project.Domain.Interfaces.IRepositories
 
         Task SaveChangeAsync(CancellationToken cancellation = default);
 
-        Task<bool> IsExistsAsync<TValue>(TValue value, CancellationToken cancellation = default);
+        Task<bool> IsExistsAsync<TValue>(string key, TValue value, CancellationToken cancellation = default);
 
         Task<bool> IsExistsForUpdateAsync<Tid, TValue>(
             Tid id,
