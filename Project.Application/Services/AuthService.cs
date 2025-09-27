@@ -40,7 +40,7 @@ namespace Project.Application.Services
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
             try
             {
-                if(_currentUserService.IsAuthenticated)
+                if (_currentUserService.IsAuthenticated)
                     throw new ValidatorException("User is already authenticated");
 
                 User? user = await _unitOfWork.UserRepository.GetOneAsync<User>(
@@ -49,7 +49,7 @@ namespace Project.Application.Services
                     ?? throw new NotFoundException($"User with UserName {loginDto.UserName} not found");
 
                 if (!await _userManager.CheckPasswordAsync(user, loginDto.Password))
-                    throw new ValidatorException($"Invalid password for user {loginDto.UserName}");
+                    throw new ValidatorException(nameof(LoginDto.Password), $"Invalid password for user {loginDto.UserName}");
 
                 string accessToken = await _jwtTokenService.GenerateJwtTokenAsync(user, cancellationToken);
                 string refreshToken = _jwtTokenService.GenerateRefreshToken();
@@ -124,7 +124,7 @@ namespace Project.Application.Services
                     DateTime.UtcNow.AddDays(_appSettings.JwtConfig.RefreshTokenExpirationDays),
                     deviceInfo,
                     ipAddress);
-                    
+
                 _unitOfWork.RefreshTokenRepository.AddEntity(newRefreshTokenEntity);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
