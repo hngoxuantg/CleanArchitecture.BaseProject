@@ -6,6 +6,7 @@ using MotorbikeRental.API.Extensions;
 using Project.API.Extensions;
 using Project.API.Middlewares;
 using Project.Application.Interfaces.IDataSeedingServices;
+using Project.Application.Mappers;
 using Project.Application.Validators.AuthValidators;
 using Project.Infrastructure.Data.Contexts;
 
@@ -35,6 +36,10 @@ builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthorization();
+#endregion
+
+#region AutoMapper Services
+builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 #endregion
 
 #region Validation
