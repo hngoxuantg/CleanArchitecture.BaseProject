@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\IValidators\" />
-    <Folder Include="Mappers\" />
   </ItemGroup>
 
   <ItemGroup>
