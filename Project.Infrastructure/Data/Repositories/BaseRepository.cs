@@ -125,10 +125,10 @@ namespace Project.Infrastructure.Data.Repositories
             CancellationToken cancellation = default)
         {
             IQueryable<T> query = _dbContext.Set<T>().AsNoTracking();
-            
+
             if (filters != null)
                 query = query.Where(filters);
-                
+
             return await query.CountAsync(cancellation);
         }
 
@@ -174,17 +174,10 @@ namespace Project.Infrastructure.Data.Repositories
             await _dbContext.SaveChangesAsync(cancellation);
         }
 
-        public async Task<bool> IsExistsAsync<TValue>(TValue value, CancellationToken cancellation = default)
+        public async Task<bool> IsExistsAsync<TValue>(string key, TValue value, CancellationToken cancellation = default)
         {
-            string? id = _dbContext.Model
-                .FindEntityType(typeof(T))?
-                .FindPrimaryKey()?
-                .Properties
-                .FirstOrDefault()?
-                .Name;
-
             var parameter = Expression.Parameter(typeof(T), "x");
-            var property = Expression.Property(parameter, id ?? "Id");
+            var property = Expression.Property(parameter, key);
             var constant = Expression.Constant(value);
             var equality = Expression.Equal(property, constant);
             var lamda = Expression.Lambda<Func<T, bool>>(equality, parameter);
