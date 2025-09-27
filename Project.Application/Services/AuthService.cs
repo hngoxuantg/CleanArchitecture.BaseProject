@@ -51,6 +51,9 @@ namespace Project.Application.Services
                 if (!await _userManager.CheckPasswordAsync(user, loginDto.Password))
                     throw new ValidatorException(nameof(LoginDto.Password), $"Invalid password for user {loginDto.UserName}");
 
+                if (!await _userManager.IsEmailConfirmedAsync(user))
+                    throw new BusinessRuleException("Email not verified!");
+
                 string accessToken = await _jwtTokenService.GenerateJwtTokenAsync(user, cancellationToken);
                 string refreshToken = _jwtTokenService.GenerateRefreshToken();
 

@@ -54,7 +54,14 @@ namespace Project.Infrastructure.Data.DataSeedingServices
                 IdentityResult result = await _userManager.CreateAsync(user, _adminAccount.Account.Password);
                 if(!result.Succeeded)
                     throw new Exception($"Failed to create admin user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+
                 await _userManager.AddToRoleAsync(user, role.Name);
+
+                string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmResult = await _userManager.ConfirmEmailAsync(user, token);
+                if (!confirmResult.Succeeded)
+                    throw new Exception($"Failed to confirm admin email:" +
+                        $" {string.Join(", ", confirmResult.Errors.Select(e => e.Description))}");
             }
         }
     }
