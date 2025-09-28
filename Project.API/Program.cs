@@ -45,6 +45,7 @@ builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 #region Validation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(typeof(LoginValidator).Assembly);
+builder.Services.AddCustomFluentValidation();
 #endregion
 
 var app = builder.Build();
