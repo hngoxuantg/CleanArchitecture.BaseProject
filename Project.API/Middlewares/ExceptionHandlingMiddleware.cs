@@ -49,7 +49,8 @@ namespace Project.API.Middlewares
                         {
                             code = validatorException.ErrorCode,
                             type = errorType,
-                        }
+                        },
+                        timestamp = validatorException.Timestamp
                     };
                 }
                 else
@@ -62,7 +63,8 @@ namespace Project.API.Middlewares
                         {
                             code = validatorException.ErrorCode,
                             type = errorType,
-                        }
+                        },
+                        timestamp = validatorException.Timestamp
                     };
                 }
             }
@@ -81,7 +83,8 @@ namespace Project.API.Middlewares
                     {
                         code = baseCustomException.ErrorCode,
                         type = errorType
-                    }
+                    },
+                    timestamp = baseCustomException.Timestamp
                 };
             }
             else
@@ -98,7 +101,8 @@ namespace Project.API.Middlewares
                     {
                         code = "UNKNOWN",
                         type = errorType
-                    }
+                    },
+                    timestamp = DateTime.UtcNow
                 };
             }
 
