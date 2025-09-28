@@ -22,5 +22,12 @@ namespace Project.Application.Exceptions
         {
             ValidationErrors = validationErrors;
         }
+        public ValidatorException(string fieldName, List<string> errorMessages) : base("Validation failed")
+        {
+            ValidationErrors = new Dictionary<string, List<string>>
+        {
+            { fieldName.ToLower(), errorMessages }
+        };
+        }
     }
 }
