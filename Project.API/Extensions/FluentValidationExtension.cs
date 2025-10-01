@@ -14,7 +14,7 @@ namespace Project.API.Extensions
                         Dictionary<string, string[]> errors = context.ModelState
                             .Where(e => e.Value?.Errors.Count > 0)
                             .ToDictionary(
-                                kvp => kvp.Key,
+                                kvp => char.ToLowerInvariant(kvp.Key[0]) + kvp.Key.Substring(1),
                                 kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
                             );
 
