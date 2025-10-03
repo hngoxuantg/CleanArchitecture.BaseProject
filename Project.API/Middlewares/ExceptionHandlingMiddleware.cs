@@ -34,7 +34,7 @@ namespace Project.API.Middlewares
 
             if (ex is ValidatorException validatorException)
             {
-                _logger.LogWarning(ex, "Validation error occurred. Errors: {@ValidationErrors}",
+                _logger.LogError(ex, "Validation error occurred. Errors: {@ValidationErrors}",
                     validatorException.ValidationErrors);
 
                 statusCode = (int)validatorException.HttpStatusCode;
@@ -70,7 +70,7 @@ namespace Project.API.Middlewares
             }
             else if (ex is BaseCustomException baseCustomException)
             {
-                _logger.LogWarning(ex, "Custom error occurred. ErrorCode: {ErrorCode}, ErrorType: {ErrorType}, Message: {Message}",
+                _logger.LogError(ex, "Custom error occurred. ErrorCode: {ErrorCode}, ErrorType: {ErrorType}, Message: {Message}",
                     baseCustomException.ErrorCode, baseCustomException.ErrorType, baseCustomException.Message);
 
                 statusCode = (int)baseCustomException.HttpStatusCode;
