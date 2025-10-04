@@ -32,7 +32,7 @@ builder.Services.AddCustomSwagger();
 #endregion
 
 #region Framework Services
-builder.Services.AddControllers();
+builder.Services.AddCustomControllers();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthorization();
