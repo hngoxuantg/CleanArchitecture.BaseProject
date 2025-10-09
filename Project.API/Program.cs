@@ -9,6 +9,7 @@ using Project.Application.Interfaces.IDataSeedingServices;
 using Project.Application.Mappers;
 using Project.Application.Validators.AuthValidators;
 using Project.Infrastructure.Data.Contexts;
+using Project.Application.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,7 @@ builder.Services.AddCustomSwagger();
 #endregion
 
 #region Framework Services
-builder.Services.AddControllers();
+builder.Services.AddCustomControllers();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthorization();
@@ -45,6 +46,7 @@ builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 #region Validation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(typeof(LoginValidator).Assembly);
+builder.Services.AddCustomFluentValidation();
 #endregion
 
 var app = builder.Build();

@@ -125,10 +125,10 @@ namespace Project.Infrastructure.Data.Repositories
             CancellationToken cancellation = default)
         {
             IQueryable<T> query = _dbContext.Set<T>().AsNoTracking();
-            
+
             if (filters != null)
                 query = query.Where(filters);
-                
+
             return await query.CountAsync(cancellation);
         }
 

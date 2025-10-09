@@ -21,7 +21,11 @@ namespace Project.Application.Interfaces.IExternalServices
         bool FileExists(string filePath);
 
         string GetFileUrl(string relativePath);
-        
+
         bool IsValidImage(IFormFile formFile);
+
+        string GetAbsoluteUrl(string relativePath);
+
+        IEnumerable<string> GetAbsoluteUrls(IEnumerable<string> relativePaths);
     }
 }

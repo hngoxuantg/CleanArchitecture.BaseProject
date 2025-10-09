@@ -7,6 +7,7 @@ namespace Project.Application.Exceptions
         public abstract HttpStatusCode HttpStatusCode { get; }
         public abstract string ErrorCode { get; }
         public virtual string ErrorType => GetType().Name;
+        public DateTime Timestamp => DateTime.UtcNow;
 
         protected BaseCustomException() { }
         protected BaseCustomException(string? message) : base(message) { }

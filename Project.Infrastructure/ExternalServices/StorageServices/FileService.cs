@@ -6,10 +6,12 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
     public class FileService : IFileService
     {
         private readonly string _baseDirectory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly string[] _allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
         private readonly long _maxFileSize = 5 * 1024 * 1024;
-        public FileService()
+        public FileService(IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
             _baseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
             Directory.CreateDirectory(_baseDirectory);
         }
@@ -115,6 +117,19 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
         public string GetFileUrl(string relativePath)
         {
             return $"/uploads/{relativePath}";
+        }
+
+        public string GetAbsoluteUrl(string relativePath)
+        {
+            return $"{_httpContextAccessor?.HttpContext?.Request?.Scheme}://{_httpContextAccessor?.HttpContext?.Request?.Host}/{relativePath.TrimStart('/')}";
+        }
+
+        public IEnumerable<string> GetAbsoluteUrls(IEnumerable<string> relativePaths)
+        {
+            foreach (var relativePath in relativePaths)
+            {
+                yield return GetAbsoluteUrl(relativePath);
+            }
         }
     }
 }
