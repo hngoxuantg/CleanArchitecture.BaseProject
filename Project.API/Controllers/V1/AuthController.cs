@@ -106,7 +106,7 @@ namespace Project.API.Controllers.V1
                 Success = true,
                 Message = "Token refreshed successfully",
                 AccessToken = accessToken,
-                RefreshToken = refreshToken
+                RefreshToken = newRefreshToken
             });
         }
     }

@@ -2,7 +2,7 @@
 {
     public interface ICurrentUserService
     {
-        Guid? UserId { get; }
+        int? UserId { get; }
         string? UserName { get; }
         bool IsAuthenticated { get; }
     }

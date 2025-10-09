@@ -2,7 +2,7 @@
 
 namespace Project.Domain.Entities.Identity_Auth
 {
-    public class Role : IdentityRole<Guid>
+    public class Role : IdentityRole<int>
     {
     }
 }

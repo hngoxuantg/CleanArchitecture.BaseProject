@@ -4,7 +4,7 @@ namespace Project.Domain.Entities.Identity_Auth
 {
     public class RefreshToken : BaseEntity
     {
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public virtual User? User { get; set; }
         public string Token { get; private set; }
         public DateTime ExpiresAt { get; private set; }
@@ -13,7 +13,7 @@ namespace Project.Domain.Entities.Identity_Auth
         public string? IpAddress { get; set; }
         public bool IsExpired => DateTime.UtcNow >= ExpiresAt;
         public bool IsActive => Revoked == null && !IsExpired;
-        public RefreshToken(Guid userId, string token, DateTime expiresAt, string deviceInfo, string ipAddress)
+        public RefreshToken(int userId, string token, DateTime expiresAt, string deviceInfo, string ipAddress)
         {
             UserId = userId;
             Token = token;

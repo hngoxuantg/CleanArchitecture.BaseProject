@@ -12,12 +12,12 @@ namespace Project.Application.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Guid? UserId
+        public int? UserId
         {
             get
             {
                 string? id = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                return id != null ? Guid.Parse(id) : null;
+                return id != null ? int.Parse(id) : null;
             }
         }
 

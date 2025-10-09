@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Project.Domain.Entities.Identity_Auth;
 using Project.Infrastructure.Data.Contexts;
 
-namespace MotorbikeRental.API.Extensions
+namespace Project.API.Extensions
 {
     public static class SecurityExtension
     {

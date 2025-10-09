@@ -11,7 +11,7 @@ using Project.Domain.Entities.System_Logs;
 
 namespace Project.Infrastructure.Data.Contexts
 {
-    public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
+    public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
         private readonly ICurrentUserService _currentUser;
         private readonly ILogger<ApplicationDbContext> _logger;
@@ -41,7 +41,7 @@ namespace Project.Infrastructure.Data.Contexts
         }
         public override async Task<int> SaveChangesAsync(CancellationToken cancellation = default)
         {
-            Guid? userId = _currentUser.UserId;
+            int? userId = _currentUser.UserId;
 
             var entries = ChangeTracker.Entries()
                 .Where(e => e.Entity is BaseEntity && (
@@ -76,7 +76,7 @@ namespace Project.Infrastructure.Data.Contexts
             return await base.SaveChangesAsync(cancellation);
         }
 
-        private void HandleAdded(BaseEntity entity, Guid? userId)
+        private void HandleAdded(BaseEntity entity, int? userId)
         {
             entity.SetCreated(userId);
             _logger.LogInformation("User {User} created entity {EntityType} with Id {EntityId}",
@@ -85,7 +85,7 @@ namespace Project.Infrastructure.Data.Contexts
             AddAuditLog("Created", entity);
         }
 
-        private void HandleModified(BaseEntity entity, Guid? userId)
+        private void HandleModified(BaseEntity entity, int? userId)
         {
             entity.SetUpdated(userId);
             _logger.LogInformation("User {User} updated entity {EntityType} with Id {EntityId}",
@@ -94,7 +94,7 @@ namespace Project.Infrastructure.Data.Contexts
             AddAuditLog("Updated", entity);
         }
 
-        private void HandleSoftDeleted(SoftDeleteEntity entity, Guid? userId)
+        private void HandleSoftDeleted(SoftDeleteEntity entity, int? userId)
         {
             entity.SetDeleted(userId);
             _logger.LogWarning("User {User} soft-deleted entity {EntityType} with Id {EntityId}",
