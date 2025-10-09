@@ -12,7 +12,7 @@ namespace Project.Domain.Entities.Business
         public string? ImageUrl { get; set; }
         [Required, MaxLength]
         public decimal Price { get; set; }
-        public Guid? CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public virtual Category? Category { get; set; }
 
         public Product()
@@ -22,7 +22,7 @@ namespace Project.Domain.Entities.Business
         public Product(
             string name,
             decimal price,
-            Guid? categoryId = null,
+            int? categoryId = null,
             string? description = null,
             string? imageUrl = null)
         {

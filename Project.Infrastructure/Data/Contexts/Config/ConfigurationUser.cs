@@ -11,6 +11,9 @@ namespace Project.Infrastructure.Data.Contexts.Config
             builder.ToTable("User");
 
             builder.HasKey(u => u.Id);
+
+            builder.Property(u => u.Id)
+                .ValueGeneratedOnAdd();
         }
     }
 }

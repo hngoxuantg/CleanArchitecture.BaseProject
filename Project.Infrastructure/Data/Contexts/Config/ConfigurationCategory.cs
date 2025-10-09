@@ -12,6 +12,9 @@ namespace Project.Infrastructure.Data.Contexts.Config
 
             builder.HasKey(c => c.Id);
 
+            builder.Property(c => c.Id)
+                .ValueGeneratedOnAdd();
+
             builder.HasMany(c => c.Products)
                 .WithOne(c => c.Category);
         }

@@ -124,7 +124,6 @@ namespace Project.API.Middlewares
                     requestMethod,
                     baseCustomException.Timestamp);
 
->>>>>>> main
                 response = new
                 {
                     success = false,
@@ -136,7 +135,6 @@ namespace Project.API.Middlewares
                     },
                     traceId,
                     timestamp = baseCustomException.Timestamp
->>>>>>> main
                 };
             }
             else
@@ -160,7 +158,6 @@ namespace Project.API.Middlewares
                     requestMethod,
                     ex.StackTrace);
 
->>>>>>> main
                 response = new
                 {
                     success = false,
@@ -172,7 +169,6 @@ namespace Project.API.Middlewares
                     },
                     traceId,
                     timestamp = DateTime.UtcNow
->>>>>>> main
                 };
             }
 

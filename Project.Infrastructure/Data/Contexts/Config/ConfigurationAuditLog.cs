@@ -11,7 +11,10 @@ namespace Project.Infrastructure.Data.Contexts.Config
             builder.ToTable("AuditLog");
 
             builder.HasKey(a => a.Id);
-            
+
+            builder.Property(a => a.Id)
+                .ValueGeneratedOnAdd();
+
             builder.HasOne(a => a.User)
                 .WithMany(au => au.AuditLogs)
                 .HasForeignKey(a => a.UserId)

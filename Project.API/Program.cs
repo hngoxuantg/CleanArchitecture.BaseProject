@@ -2,14 +2,12 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
-using MotorbikeRental.API.Extensions;
 using Project.API.Extensions;
 using Project.API.Middlewares;
 using Project.Application.Interfaces.IDataSeedingServices;
 using Project.Application.Mappers;
 using Project.Application.Validators.AuthValidators;
 using Project.Infrastructure.Data.Contexts;
-using Project.Application.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 

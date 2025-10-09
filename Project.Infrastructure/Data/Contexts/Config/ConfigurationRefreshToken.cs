@@ -12,6 +12,9 @@ namespace Project.Infrastructure.Data.Contexts.Config
 
             builder.HasKey(rt => rt.Id);
 
+            builder.Property(rt => rt.Id)
+                .ValueGeneratedOnAdd();
+
             builder.Property(rt => rt.UserId)
                 .IsRequired();
 

@@ -6,11 +6,11 @@ namespace Project.Domain.Entities.Base
     {
         public bool IsDeleted { get; set; } = false;
 
-        public Guid? DeleteBy { get; set; }
+        public int? DeleteBy { get; set; }
 
         public DateTime? DeleteAt { get; set; }
 
-        public virtual void SetDeleted(Guid? deleteBy)
+        public virtual void SetDeleted(int? deleteBy)
         {
             IsDeleted = true;
             DeleteAt = DateTime.UtcNow;
