@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using Project.Domain.Interfaces.IRepositories;
+using Project.Domain.Interfaces.IRepositories.IBaseRepositories;
+using Project.Domain.Interfaces.IRepositories.IBusinessRepositories;
+using Project.Domain.Interfaces.IRepositories.IIdentity_AuthRepositories;
+using Project.Domain.Interfaces.IRepositories.ISystem_LogRepositories;
 using Project.Infrastructure.Data.Contexts;
 
-namespace Project.Infrastructure.Data.Repositories
+namespace Project.Infrastructure.Data.Repositories.BaseRepositories
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -13,6 +16,7 @@ namespace Project.Infrastructure.Data.Repositories
             ICategoryRepository categoryRepository,
             IProductRepository productRepository,
             IRefreshTokenRepository refreshTokenRepository,
+            IAuditLogRepository auditLogRepository,
             ApplicationDbContext dbContext)
         {
             RoleRepository = roleRepository;
@@ -20,6 +24,7 @@ namespace Project.Infrastructure.Data.Repositories
             CategoryRepository = categoryRepository;
             ProductRepository = productRepository;
             RefreshTokenRepository = refreshTokenRepository;
+            AuditLogRepository = auditLogRepository;
             _dbContext = dbContext;
         }
         public IRoleRepository RoleRepository { get; }
@@ -27,6 +32,7 @@ namespace Project.Infrastructure.Data.Repositories
         public ICategoryRepository CategoryRepository { get; }
         public IProductRepository ProductRepository { get; }
         public IRefreshTokenRepository RefreshTokenRepository { get; }
+        public IAuditLogRepository AuditLogRepository { get; }
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await _dbContext.SaveChangesAsync(cancellationToken);

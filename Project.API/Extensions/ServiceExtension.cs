@@ -3,9 +3,15 @@ using Project.Application.Interfaces.IExternalServices;
 using Project.Application.Interfaces.IExternalServices.ITokenServices;
 using Project.Application.Interfaces.IServices;
 using Project.Application.Services;
-using Project.Domain.Interfaces.IRepositories;
+using Project.Domain.Interfaces.IRepositories.IBaseRepositories;
+using Project.Domain.Interfaces.IRepositories.IBusinessRepositories;
+using Project.Domain.Interfaces.IRepositories.IIdentity_AuthRepositories;
+using Project.Domain.Interfaces.IRepositories.ISystem_LogRepositories;
 using Project.Infrastructure.Data.DataSeedingServices;
-using Project.Infrastructure.Data.Repositories;
+using Project.Infrastructure.Data.Repositories.BaseRepositories;
+using Project.Infrastructure.Data.Repositories.BusinessRepositories;
+using Project.Infrastructure.Data.Repositories.Identity_AuthRepositories;
+using Project.Infrastructure.Data.Repositories.System_LogRepositories;
 using Project.Infrastructure.ExternalServices.StorageServices;
 using Project.Infrastructure.ExternalServices.TokenServices;
 
@@ -35,6 +41,7 @@ namespace Project.API.Extensions
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IAuditLogRepository, AuditLogRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }

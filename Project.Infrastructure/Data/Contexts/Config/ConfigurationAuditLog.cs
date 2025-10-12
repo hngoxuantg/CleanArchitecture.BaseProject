@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Project.Domain.Entities.System_Logs;
+using Project.Domain.Entities.System_Log;
 
 namespace Project.Infrastructure.Data.Contexts.Config
 {

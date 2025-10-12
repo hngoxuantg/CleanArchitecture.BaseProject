@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project.Domain.Interfaces.IRepositories;
+using Project.Domain.Interfaces.IRepositories.IBaseRepositories;
 using Project.Infrastructure.Data.Contexts;
 using System.Linq.Expressions;
 
-namespace Project.Infrastructure.Data.Repositories
+namespace Project.Infrastructure.Data.Repositories.BaseRepositories
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {

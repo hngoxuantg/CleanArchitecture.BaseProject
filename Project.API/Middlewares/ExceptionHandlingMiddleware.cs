@@ -1,7 +1,7 @@
 using Project.Application.Exceptions;
 using Project.Common.Constants;
-using System.Text.Json;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace Project.API.Middlewares
 {

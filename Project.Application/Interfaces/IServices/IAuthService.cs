@@ -13,7 +13,7 @@ namespace Project.Application.Interfaces.IServices
         Task<bool> LogoutAsync(
             string? refreshToken,
             CancellationToken cancellationToken = default);
-            
+
         Task<(string, string)> RefreshAsync(
             string? refreshToken,
             string? deviceInfo,

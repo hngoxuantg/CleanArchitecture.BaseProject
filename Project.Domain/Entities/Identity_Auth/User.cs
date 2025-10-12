@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Project.Domain.Entities.System_Logs;
+using Project.Domain.Entities.System_Log;
 
 namespace Project.Domain.Entities.Identity_Auth
 {

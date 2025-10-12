@@ -1,6 +1,6 @@
 ﻿using Project.Domain.Entities.Identity_Auth;
 
-namespace Project.Domain.Entities.System_Logs
+namespace Project.Domain.Entities.System_Log
 {
     public class AuditLog
     {

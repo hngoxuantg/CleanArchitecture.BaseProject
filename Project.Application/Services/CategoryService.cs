@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Project.Application.Interfaces.IServices;
-using Project.Domain.Interfaces.IRepositories;
+using Project.Domain.Interfaces.IRepositories.IBaseRepositories;
 
 namespace Project.Application.Services
 {

@@ -11,7 +11,7 @@ namespace Project.Common.Models.Pagination
             get => _pageNumber;
             set
             {
-                if(value >= 1)
+                if (value >= 1)
                     _pageNumber = value;
             }
         }
@@ -20,7 +20,7 @@ namespace Project.Common.Models.Pagination
             get => _pageSize;
             set
             {
-                if(value >= 1 && value <= 100)
+                if (value >= 1 && value <= 100)
                     _pageSize = value;
             }
         }

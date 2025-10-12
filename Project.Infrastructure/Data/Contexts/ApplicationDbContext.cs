@@ -7,7 +7,7 @@ using Project.Application.Interfaces.IServices;
 using Project.Domain.Entities.Base;
 using Project.Domain.Entities.Business;
 using Project.Domain.Entities.Identity_Auth;
-using Project.Domain.Entities.System_Logs;
+using Project.Domain.Entities.System_Log;
 
 namespace Project.Infrastructure.Data.Contexts
 {

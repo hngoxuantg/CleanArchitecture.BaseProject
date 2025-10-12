@@ -1,9 +1,9 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Project.Domain.Entities.Identity_Auth;
 using Project.Infrastructure.Data.Contexts;
+using System.Text;
 
 namespace Project.API.Extensions
 {
@@ -20,7 +20,7 @@ namespace Project.API.Extensions
             }).AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             #endregion
-            
+
             #region JWT configuration
             services.AddAuthentication(options =>
             {
@@ -36,7 +36,7 @@ namespace Project.API.Extensions
 
                     ValidateAudience = true,
                     ValidAudience = configuration["AppSettings:JwtConfig:ValidAudience"],
-                    
+
                     ValidateLifetime = true,
                     RequireExpirationTime = true,
 

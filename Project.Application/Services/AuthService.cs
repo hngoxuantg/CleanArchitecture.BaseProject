@@ -6,7 +6,7 @@ using Project.Application.Interfaces.IExternalServices.ITokenServices;
 using Project.Application.Interfaces.IServices;
 using Project.Common.Options;
 using Project.Domain.Entities.Identity_Auth;
-using Project.Domain.Interfaces.IRepositories;
+using Project.Domain.Interfaces.IRepositories.IBaseRepositories;
 
 namespace Project.Application.Services
 {

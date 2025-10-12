@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Project.API.Extensions;
 using Project.API.Middlewares;
 using Project.Application.Interfaces.IDataSeedingServices;
+using Project.Application.Mappers;
 using Project.Application.Validators.AuthValidators;
 using Project.Infrastructure.Data.Contexts;
-using Project.Application.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
