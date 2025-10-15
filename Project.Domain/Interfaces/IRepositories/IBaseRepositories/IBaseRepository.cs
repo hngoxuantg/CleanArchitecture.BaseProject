@@ -39,11 +39,11 @@ namespace Project.Domain.Interfaces.IRepositories.IBaseRepositories
 
         Task<T> CreateAsync(T model, CancellationToken cancellation = default);
 
-        Task CreateRange(IEnumerable<T> models, CancellationToken cancellation = default);
+        Task<IEnumerable<T>> CreateRangeAsync(IEnumerable<T> models, CancellationToken cancellation = default);
 
         Task<T> UpdateAsync(T model, CancellationToken cancellation = default);
 
-        Task UpdateRangeAsync(IEnumerable<T> models, CancellationToken cancellation = default);
+        Task<IEnumerable<T>> UpdateRangeAsync(IEnumerable<T> models, CancellationToken cancellation = default);
 
         Task DeleteAsync(T model, CancellationToken cancellation = default);
 

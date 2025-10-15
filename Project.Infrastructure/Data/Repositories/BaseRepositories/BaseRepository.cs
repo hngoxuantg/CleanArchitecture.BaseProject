@@ -139,10 +139,11 @@ namespace Project.Infrastructure.Data.Repositories.BaseRepositories
             return model;
         }
 
-        public virtual async Task CreateRange(IEnumerable<T> models, CancellationToken cancellation = default)
+        public virtual async Task<IEnumerable<T>> CreateRangeAsync(IEnumerable<T> models, CancellationToken cancellation = default)
         {
             _dbContext.Set<T>().AddRange(models);
             await _dbContext.SaveChangesAsync(cancellation);
+            return models;
         }
 
         public async Task<T> UpdateAsync(T model, CancellationToken cancellation = default)
@@ -152,10 +153,11 @@ namespace Project.Infrastructure.Data.Repositories.BaseRepositories
             return model;
         }
 
-        public async Task UpdateRangeAsync(IEnumerable<T> models, CancellationToken cancellation = default)
+        public async Task<IEnumerable<T>> UpdateRangeAsync(IEnumerable<T> models, CancellationToken cancellation = default)
         {
             _dbContext.Set<T>().UpdateRange(models);
             await _dbContext.SaveChangesAsync(cancellation);
+            return models;
         }
 
         public async Task DeleteAsync(T model, CancellationToken cancellation = default)
