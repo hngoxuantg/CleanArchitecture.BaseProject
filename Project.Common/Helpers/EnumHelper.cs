@@ -20,16 +20,5 @@ namespace Project.API.Helpers
                 })
                 .ToList<object>();
         }
-        public static string GetDisplayName(Enum value)
-        {
-            return value
-                .GetType()
-                .GetMember(value.ToString())
-                .FirstOrDefault()?
-                .GetCustomAttribute<DisplayAttribute>()?
-                .Name
-                ?? value.ToString();
-        }
-
     }
 }
