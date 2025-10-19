@@ -35,6 +35,15 @@ namespace Project.Domain.Interfaces.IRepositories.IBaseRepositories
             int pageSize = 12,
             CancellationToken cancellationToken = default);
 
+        Task<(IEnumerable<TResult>, int totalCount)> GetPagedAsync<TResult>(
+            Expression<Func<T, TResult>> selector,
+            Expression<Func<T, bool>>? filter = null,
+            Expression<Func<IQueryable<T>, IOrderedQueryable<T>>>? orderBy = null,
+            Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
+            int pageNumber = 1,
+            int pageSize = 12,
+            CancellationToken cancellationToken = default);
+
         Task<int> GetCountAsync(Expression<Func<T, bool>>? filters = null, CancellationToken cancellation = default);
 
         Task<T> CreateAsync(T model, CancellationToken cancellation = default);

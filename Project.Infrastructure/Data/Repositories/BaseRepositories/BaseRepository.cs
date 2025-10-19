@@ -120,6 +120,35 @@ namespace Project.Infrastructure.Data.Repositories.BaseRepositories
             return (await query.ToListAsync(cancellationToken), count);
         }
 
+        public virtual async Task<(IEnumerable<TResult>, int totalCount)> GetPagedAsync<TResult>(
+            Expression<Func<T, TResult>> selector,
+            Expression<Func<T, bool>>? filter = null,
+            Expression<Func<IQueryable<T>, IOrderedQueryable<T>>>? orderBy = null,
+            Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
+            int pageNumber = 1,
+            int pageSize = 12,
+            CancellationToken cancellationToken = default)
+        {
+            IQueryable<T> query = _dbContext.Set<T>().AsNoTracking();
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            int count = await query.CountAsync(cancellationToken);
+
+            if (include != null)
+                query = include.Compile()(query);
+
+            if (orderBy != null)
+                query = orderBy.Compile()(query);
+
+            query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            var result = await query.Select(selector).ToListAsync(cancellationToken);
+
+            return (result, count);
+        }
+
         public async Task<int> GetCountAsync(
             Expression<Func<T, bool>>? filters = null,
             CancellationToken cancellation = default)
