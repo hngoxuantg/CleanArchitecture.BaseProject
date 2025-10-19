@@ -9,6 +9,8 @@ namespace Project.Domain.Entities.Business
         public string Name { get; set; }
         [Required, MaxLength(255)]
         public string? Description { get; set; }
-        public ICollection<Product>? Products { get; set; }
+
+        private readonly List<Product> _products = new List<Product>();
+        public IReadOnlyCollection<Product> Products => _products.AsReadOnly();
     }
 }

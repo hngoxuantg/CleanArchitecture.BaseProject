@@ -13,7 +13,12 @@ namespace Project.Domain.Entities.Identity_Auth
         public int? UpdatedBy { get; set; }
         public byte[]? RowVersion { get; set; }
 
-        public ICollection<RefreshToken> RefreshTokens { get; set; }
-        public ICollection<AuditLog> AuditLogs { get; set; }
+
+        private readonly List<RefreshToken> _refreshTokens = new List<RefreshToken>();
+        public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
+
+
+        private readonly List<AuditLog> _auditLogs = new List<AuditLog>();
+        public IReadOnlyCollection<AuditLog> AuditLogs => _auditLogs.AsReadOnly();
     }
 }
