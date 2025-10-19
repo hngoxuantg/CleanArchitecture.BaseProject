@@ -13,7 +13,7 @@ namespace Project.Domain.Entities.Identity_Auth
         public int? UpdatedBy { get; set; }
         public byte[]? RowVersion { get; set; }
 
-        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
-        public virtual ICollection<AuditLog> AuditLogs { get; set; }
+        public ICollection<RefreshToken> RefreshTokens { get; set; }
+        public ICollection<AuditLog> AuditLogs { get; set; }
     }
 }

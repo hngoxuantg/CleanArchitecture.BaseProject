@@ -6,7 +6,7 @@ namespace Project.Domain.Entities.System_Log
     {
         public int Id { get; set; }
         public int? UserId { get; set; }
-        public virtual User? User { get; set; }
+        public User? User { get; set; }
         public string? UserName { get; set; }
         public string Action { get; set; } = string.Empty;
         public string EntityType { get; set; } = string.Empty;

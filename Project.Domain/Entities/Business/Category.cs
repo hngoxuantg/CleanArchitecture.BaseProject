@@ -9,6 +9,6 @@ namespace Project.Domain.Entities.Business
         public string Name { get; set; }
         [Required, MaxLength(255)]
         public string? Description { get; set; }
-        public virtual ICollection<Product>? Products { get; set; }
+        public ICollection<Product>? Products { get; set; }
     }
 }
