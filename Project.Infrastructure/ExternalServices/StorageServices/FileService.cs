@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Project.Application.Exceptions;
 using Project.Application.Interfaces.IExternalServices;
 
 namespace Project.Infrastructure.ExternalServices.StorageServices
@@ -9,9 +11,11 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly string[] _allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
         private readonly long _maxFileSize = 5 * 1024 * 1024;
-        public FileService(IHttpContextAccessor httpContextAccessor)
+        private readonly ILogger<FileService> _logger;
+        public FileService(IHttpContextAccessor httpContextAccessor, ILogger<FileService> logger)
         {
             _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
             _baseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
             Directory.CreateDirectory(_baseDirectory);
         }
@@ -22,7 +26,7 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
             CancellationToken cancellationToken = default)
         {
             if (!IsValidImage(formFile))
-                throw new Exception("File is invalid or empty.");
+                throw new ValidatorException("File is invalid or empty.");
 
             string folderPath = Path.Combine(_baseDirectory, folder);
             string fileName = $"{Guid.NewGuid()}{Path.GetExtension(formFile.FileName)}";
@@ -89,7 +93,7 @@ namespace Project.Infrastructure.ExternalServices.StorageServices
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    _logger.LogError(ex, "Error deleting file: {FilePath}", fullPath);
                 }
             }
 
