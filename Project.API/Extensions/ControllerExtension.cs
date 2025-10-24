@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Project.API.Helpers;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Project.API.Extensions
@@ -15,6 +17,13 @@ namespace Project.API.Extensions
                     options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
                     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                 });
+
+            services.AddControllers(options =>
+            {
+                options.Conventions.Add(
+                    new RouteTokenTransformerConvention(new LowercaseRouteParameterTransformer()));
+            });
+
             return services;
         }
     }
