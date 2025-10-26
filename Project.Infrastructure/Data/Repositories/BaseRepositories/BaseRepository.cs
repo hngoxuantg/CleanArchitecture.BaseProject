@@ -13,11 +13,14 @@ namespace Project.Infrastructure.Data.Repositories.BaseRepositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellation = default)
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null,
+            CancellationToken cancellation = default)
         {
-            return await _dbContext.Set<T>()
-                .AsNoTracking()
-                .ToListAsync(cancellation);
+            IQueryable<T> query = _dbContext.Set<T>().AsNoTracking();
+            if (filter != null)
+                query = query.Where(filter);
+
+            return await query.ToListAsync(cancellation);
         }
 
         public async Task<T?> GetByIdAsync<Tid>(Tid id, CancellationToken cancellation = default)

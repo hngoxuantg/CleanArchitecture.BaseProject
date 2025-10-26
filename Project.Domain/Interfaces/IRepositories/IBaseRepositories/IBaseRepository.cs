@@ -4,7 +4,8 @@ namespace Project.Domain.Interfaces.IRepositories.IBaseRepositories
 {
     public interface IBaseRepository<T> where T : class
     {
-        Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellation = default);
+        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null,
+            CancellationToken cancellation = default);
 
         Task<T?> GetByIdAsync<Tid>(Tid id, CancellationToken cancellation = default);
 
