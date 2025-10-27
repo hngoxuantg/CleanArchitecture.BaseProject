@@ -13,14 +13,26 @@ namespace Project.Infrastructure.Data.Repositories.BaseRepositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null,
+        public async Task<IEnumerable<TResult>> GetAllAsync<TResult>(Expression<Func<T, bool>>? filter = null,
+            Expression<Func<IQueryable<T>, IOrderedQueryable<T>>>? orderBy = null,
+            Expression<Func<T, TResult>>? selector = null,
+            Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
             CancellationToken cancellation = default)
         {
             IQueryable<T> query = _dbContext.Set<T>().AsNoTracking();
             if (filter != null)
                 query = query.Where(filter);
 
-            return await query.ToListAsync(cancellation);
+            if (include != null)
+                query = include.Compile()(query);
+
+            if (orderBy != null)
+                query = orderBy.Compile()(query);
+
+            if (selector != null)
+                return await query.Select(selector).ToListAsync(cancellation);
+            else
+                return await query.Cast<TResult>().ToListAsync(cancellation);
         }
 
         public async Task<T?> GetByIdAsync<Tid>(Tid id, CancellationToken cancellation = default)
