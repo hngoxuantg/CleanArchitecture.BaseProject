@@ -73,6 +73,11 @@ if (app.Environment.IsDevelopment())
             options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
                                     $"API {description.GroupName.ToUpperInvariant()}");
         }
+
+        options.EnableDeepLinking();
+        options.DisplayRequestDuration();
+        options.EnableFilter();
+        options.ShowExtensions();
     });
 }
 
