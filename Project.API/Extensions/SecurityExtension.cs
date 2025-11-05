@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Project.Domain.Entities.Identity_Auth;
@@ -44,6 +44,49 @@ namespace Project.API.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(key),
 
                     ClockSkew = TimeSpan.Zero
+                };
+
+                jwt.Events = new JwtBearerEvents
+                {
+                    OnChallenge = context =>
+                    {
+                        context.HandleResponse();
+
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        context.Response.ContentType = "application/json";
+                        var response = new
+                        {
+                            success = false,
+                            message = "You must be logged in to access this resource.",
+                            error = new
+                            {
+                                code = "UNAUTHORIZED_ACCESS",
+                                type = "UnauthorizedAccessException"
+                            },
+                            traceId = context.HttpContext.TraceIdentifier,
+                            timestamp = DateTime.UtcNow
+                        };
+
+                        return context.Response.WriteAsJsonAsync(response);
+                    },
+                    OnForbidden = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                        context.Response.ContentType = "application/json";
+                        var response = new
+                        {
+                            success = false,
+                            message = "You do not have permission to access this resource.",
+                            error = new
+                            {
+                                code = "FORBIDDEN_ACCESS",
+                                type = "ForbiddenAccessException"
+                            },
+                            traceId = context.HttpContext.TraceIdentifier,
+                            timestamp = DateTime.UtcNow
+                        };
+                        return context.Response.WriteAsJsonAsync(response);
+                    }
                 };
             });
             #endregion
