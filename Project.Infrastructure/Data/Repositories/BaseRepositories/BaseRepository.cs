@@ -13,7 +13,8 @@ namespace Project.Infrastructure.Data.Repositories.BaseRepositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<TResult>> GetAllAsync<TResult>(Expression<Func<T, bool>>? filter = null,
+        public async Task<IEnumerable<TResult>> GetAllAsync<TResult>(
+            Expression<Func<T, bool>>? filter = null,
             Expression<Func<IQueryable<T>, IOrderedQueryable<T>>>? orderBy = null,
             Expression<Func<T, TResult>>? selector = null,
             Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,

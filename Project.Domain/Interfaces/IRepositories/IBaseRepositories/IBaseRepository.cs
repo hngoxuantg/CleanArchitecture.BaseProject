@@ -4,7 +4,8 @@ namespace Project.Domain.Interfaces.IRepositories.IBaseRepositories
 {
     public interface IBaseRepository<T> where T : class
     {
-        Task<IEnumerable<TResult>> GetAllAsync<TResult>(Expression<Func<T, bool>>? filter = null,
+        Task<IEnumerable<TResult>> GetAllAsync<TResult>(
+            Expression<Func<T, bool>>? filter = null,
             Expression<Func<IQueryable<T>, IOrderedQueryable<T>>>? orderBy = null,
             Expression<Func<T, TResult>>? selector = null,
             Expression<Func<IQueryable<T>, IQueryable<T>>>? include = null,
