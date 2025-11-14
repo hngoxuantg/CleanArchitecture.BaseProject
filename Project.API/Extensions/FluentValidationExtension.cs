@@ -21,7 +21,7 @@ namespace Project.API.Extensions
                         var response = new
                         {
                             success = false,
-                            title = "One or more validation errors occurred.",
+                            message = "One or more validation errors occurred.",
                             errors,
                             error = new
                             {

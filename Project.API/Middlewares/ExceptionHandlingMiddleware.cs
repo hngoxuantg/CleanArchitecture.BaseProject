@@ -74,7 +74,7 @@ namespace Project.API.Middlewares
                     response = new
                     {
                         success = false,
-                        title = "One or more validation errors occurred.",
+                        message = "One or more validation errors occurred.",
                         errors = validatorException.ValidationErrors,
                         error = new
                         {
