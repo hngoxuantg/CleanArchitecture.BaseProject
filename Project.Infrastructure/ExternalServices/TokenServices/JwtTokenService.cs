@@ -36,8 +36,8 @@ namespace Project.Infrastructure.ExternalServices.TokenServices
                 new Claim(ClaimTypes.Name, user.FullName),
             };
 
-            for (int i = 0; i < roles.Count; i++)
-                claims.Add(new Claim(ClaimTypes.Role, roles[i]));
+            foreach (var role in roles)
+                claims.Add(new Claim(ClaimTypes.Role, role));
 
             SecurityTokenDescriptor securityTokenDescriptor = new SecurityTokenDescriptor()
             {
